@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/hashcode.dir/src/main.cpp.o  -o hashcode libparser.a libserializer.a 

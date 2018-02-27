@@ -1,0 +1,5 @@
+/home/fabio/workspace/Hashcode/build/CMakeFiles/rebuild_cache.dir
+/home/fabio/workspace/Hashcode/build/CMakeFiles/edit_cache.dir
+/home/fabio/workspace/Hashcode/build/CMakeFiles/hashcode.dir
+/home/fabio/workspace/Hashcode/build/CMakeFiles/serializer.dir
+/home/fabio/workspace/Hashcode/build/CMakeFiles/parser.dir

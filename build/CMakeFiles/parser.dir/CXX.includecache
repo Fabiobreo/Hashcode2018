@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/parser.hpp
+iostream
+-
+fstream
+-
+sstream
+-
+vector
+-
+
+/home/fabio/workspace/Hashcode/src/parser.cpp
+parser.hpp
+-
+
