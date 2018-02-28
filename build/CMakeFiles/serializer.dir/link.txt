@@ -1,2 +1,0 @@
-/usr/bin/ar qc libserializer.a  CMakeFiles/serializer.dir/src/serializer.cpp.o
-/usr/bin/ranlib libserializer.a

@@ -29,7 +29,7 @@ public:
      * @param args: the rest of the elements
      */
     template<typename T, typename... Args>
-    void getNext(T& first, Args&... args)
+    void getNext(T &first, Args &... args)
     {
         if (inputFile.is_open())
         {
@@ -45,16 +45,15 @@ public:
             }
 
             // Put next characters, till whitespace, in temp
-            std::istringstream stringStream(currentLine);
+            std::istringstream tmpStream(currentLine);
             std::string temp;
-            stringStream >> temp;
+            tmpStream >> temp;
 
             // Resize current line and save variable
             currentLine = currentLine.length() > temp.length() + 1 ? currentLine.substr(temp.length() + 1) : "";
-            stringStream = std::istringstream(temp);
+            std::istringstream stringStream(temp);
             stringStream >> first;
-        }
-        else
+        } else
         {
             std::cerr << "Unable to open file" << std::endl;
         }
@@ -66,7 +65,8 @@ public:
     /**
      * Base class for recursion
      */
-    void getNext() {}
+    void getNext()
+    {}
 
     /**
      * Get next lines_to_read and put them into vector
@@ -76,18 +76,34 @@ public:
      * @param lines_to_read: how many lines to read from file
      */
     template<typename T, typename A>
-    void getNextLines(std::vector<T, A> &vector, int lines_to_read)
+    void getNextLines(std::vector<std::vector<T, A>> &vector, int lines_to_read)
     {
         if (inputFile.is_open())
         {
-            T line;
+            std::string line;
             int read_lines = 0;
+            // Get lines and breaks them into atomic pieces
             while (std::getline(inputFile, line) && read_lines < lines_to_read)
             {
+                std::vector<T> row;
+                for (size_t i = 0; i < line.length(); ++i)
+                {
+                    T column;
+                    // Exclude last character, that is a new line
+                    if (line.at(i) != '\r' && line.at(i) != '\n')
+                    {
+                        // Convert character into T type
+                        std::string character(std::string(1, line.at(i)));
+                        std::istringstream stringStream(character);
+                        stringStream >> column;
+                        row.push_back(column);
+                    }
+                }
+                vector.push_back(row);
                 read_lines++;
-                vector.push_back(line);
             }
 
+            // The file has less lines than expected
             if (read_lines < lines_to_read)
             {
                 std::cerr << "Lines read: " << read_lines << "/" << lines_to_read << std::endl;
