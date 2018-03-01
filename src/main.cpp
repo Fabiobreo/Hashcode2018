@@ -2,6 +2,7 @@
 #include <parser.hpp>
 #include <serializer.hpp>
 #include <log.hpp>
+#include <ride.hpp>
 
 Log logger;
 
@@ -16,6 +17,27 @@ int main(int argc, char *argv[])
     // Parse input
     Parser input_file(input_path);
 
+    int rows, cols, fleets, n_rides, bonus, steps;
+    std::vector<std::vector<int>> tmp_rides;
+
+    input_file.getNext(rows, cols, fleets, n_rides, bonus, steps);
+
+    input_file.getNextLines(tmp_rides, n_rides);
+    logger.log(rows, cols, fleets, n_rides, bonus, steps);
+    logger.log(tmp_rides);
+
+    std::vector<Ride> rides;
+    int n_ride = 0;
+    for (std::vector<int> a_ride : tmp_rides)
+    {
+        rides.push_back(Ride(n_ride, a_ride.at(0), a_ride.at(1), a_ride.at(2), a_ride.at(3), a_ride.at(4), a_ride.at(5)));
+        n_ride++;
+    }
+
+    for (int t = 0; t < steps; t++)
+    {
+
+    }
     /*
     // Usage example
     int first;

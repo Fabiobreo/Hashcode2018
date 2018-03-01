@@ -90,7 +90,7 @@ public:
                 {
                     T column;
                     // Exclude last character, that is a new line
-                    if (line.at(i) != '\r' && line.at(i) != '\n')
+                    if (line.at(i) != '\r' && line.at(i) != '\n' && line.at(i) != ' ')
                     {
                         // Convert character into T type
                         std::string character(std::string(1, line.at(i)));
