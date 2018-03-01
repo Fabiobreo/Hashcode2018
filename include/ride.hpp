@@ -20,6 +20,11 @@ public:
             latestFinish(_latestFinish)
     {}
 
+    bool operator < (const Ride& ride) const
+    {
+        return (priority < ride.priority);
+    }
+
     int rideId;
     int startRow;
     int startCol;
@@ -27,6 +32,7 @@ public:
     int endCol;
     int earlyStart;
     int latestFinish;
+    int priority;
 };
 
 #endif //RIDE_HPP

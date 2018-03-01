@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "vehicle.hpp"
 
 class Serializer
 {
@@ -83,6 +84,8 @@ public:
             std::cerr << "Unable to open file" << std::endl;
         }
     }
+
+    void printVehicle(std::vector<Vehicle>& vehicles);
 
 private:
     std::ofstream outputFile;

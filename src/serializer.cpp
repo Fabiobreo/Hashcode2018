@@ -9,3 +9,24 @@ Serializer::~Serializer()
 {
     outputFile.close();
 }
+
+
+void Serializer::printVehicle(std::vector<Vehicle>& vehicles)
+{
+    for (Vehicle vec : vehicles)
+    {
+        if (outputFile.is_open())
+        {
+            outputFile << vec.rides.size();
+            for (Ride* ride : vec.rides)
+            {
+                outputFile << " " << ride->rideId;
+            }
+            outputFile << std::endl;
+        }
+        else
+        {
+            std::cerr << "Unable to open file" << std::endl;
+        }
+    }
+}
