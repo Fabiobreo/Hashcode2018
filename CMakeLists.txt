@@ -6,6 +6,7 @@ include_directories(include)
 
 add_library(parser include/parser.hpp src/parser.cpp)
 add_library(serializer include/serializer.hpp src/serializer.cpp)
+add_library(log include/log.hpp src/log.cpp)
 
 add_executable(hashcode src/main.cpp)
-target_link_libraries(hashcode parser serializer)
+target_link_libraries(hashcode parser serializer log)

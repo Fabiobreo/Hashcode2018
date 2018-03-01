@@ -1,6 +1,9 @@
 #include <iostream>
 #include <parser.hpp>
 #include <serializer.hpp>
+#include <log.hpp>
+
+Log logger;
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +25,14 @@ int main(int argc, char *argv[])
     input_file.getNext(first, second, third, fourth);
     std::vector<std::vector<std::string>> vec;
     input_file.getNextLines(vec, first);
+
+    logger.log("First:", first);
+    logger.log("Second:", second);
+    logger.log("Third:", third);
+    logger.log("Fourth", fourth);
+    logger.log("Vec:");
+    logger.log(vec);
+
     Serializer output_file(output_path);
     output_file.printNext(first, second, third, fourth);
     output_file.printVector(vec);
