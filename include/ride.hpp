@@ -4,20 +4,20 @@
 class Ride
 {
 public:
-    Ride(int _rideId,
-         int _startRow,
-         int _startCol,
-         int _endRow,
-         int _endCol,
-         int _earlyStart,
-         int _latestFinish) :
-            rideId(_rideId),
-            startRow(_startRow),
-            startCol(_startCol),
-            endRow(_endRow),
-            endCol(_endCol),
-            earlyStart(_earlyStart),
-            latestFinish(_latestFinish)
+    explicit Ride(int _id,
+         int _start_row,
+         int _start_col,
+         int _end_row,
+         int _end_col,
+         int _early_start,
+         int _latest_finish) :
+            id(_id),
+            start_row(_start_row),
+            start_col(_start_col),
+            end_row(_end_row),
+            end_col(_end_col),
+            early_start(_early_start),
+            latest_finish(_latest_finish)
     {}
 
     bool operator < (const Ride& ride) const
@@ -25,13 +25,13 @@ public:
         return (priority < ride.priority);
     }
 
-    int rideId;
-    int startRow;
-    int startCol;
-    int endRow;
-    int endCol;
-    int earlyStart;
-    int latestFinish;
+    int id;
+    int start_row;
+    int start_col;
+    int end_row;
+    int end_col;
+    int early_start;
+    int latest_finish;
     int priority;
 };
 

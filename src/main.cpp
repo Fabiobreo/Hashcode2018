@@ -2,21 +2,25 @@
 #include <parser.hpp>
 #include <serializer.hpp>
 #include <log.hpp>
-#include <ride.hpp>
-#include <vehicle.hpp>
-#include <algorithm>
 
 Log logger;
 
 int calculatePriority(Vehicle* vec, Ride* ride)
 {
-    int prio = std::abs(ride->startRow - vec->current_row) + std::abs(ride->startCol - vec->current_col) + std::abs(ride->startRow - ride->endRow) + std::abs(ride->startCol - ride->endCol);
-    return (ride->latestFinish - ride->earlyStart) - prio;
+    int prio = std::abs(ride->start_row - vec->current_row) + std::abs(ride->start_col - vec->current_col) + std::abs(ride->start_row - ride->end_row) + std::abs(ride->start_col - ride->end_col);
+    return (ride->latest_finish - ride->early_start) - prio;
 }
 
 class Priority
 {
 public:
+
+    Priority(int _priority, Vehicle* _vec, Ride* _ride) :
+    priority(_priority),
+    vec(_vec),
+    ride(_ride)
+    {}
+
     bool operator < (const Priority& prio) const
     {
         return (priority < prio.priority);
@@ -45,8 +49,8 @@ int main(int argc, char *argv[])
     input_file.getNext(rows, cols, n_vehicles, n_rides, bonus, steps);
 
     input_file.getNextLines(tmp_rides, n_rides);
-    logger.log(rows, cols, n_vehicles, n_rides, bonus, steps);
-    logger.log(tmp_rides);
+//    logger.log(rows, cols, n_vehicles, n_rides, bonus, steps);
+//    logger.log(tmp_rides);
 
 
     // Create vehicles
@@ -80,10 +84,7 @@ int main(int argc, char *argv[])
             {
                 for (Ride &ride : rides)
                 {
-                    Priority prio;
-                    prio.priority = calculatePriority(&vec, &ride);
-                    prio.vec = &vec;
-                    prio.ride = &ride;
+                    Priority prio(calculatePriority(&vec, &ride), &vec, &ride);
                     priorities.push_back(prio);
                 }
             }
@@ -102,7 +103,7 @@ int main(int argc, char *argv[])
 
         while (!admissible_priorities.empty())
         {
-            int i = 0;
+            size_t i = 0;
             for (i; i < vehicles.size(); ++i)
             {
                 if (admissible_priorities.at(0).vec->id == vehicles.at(i).id)
@@ -112,12 +113,12 @@ int main(int argc, char *argv[])
             }
             if (i < vehicles.size())
             {
-                int rideId = admissible_priorities.at(0).ride->rideId;
+                int rideId = admissible_priorities.at(0).ride->id;
                 int vecId = admissible_priorities.at(0).vec->id;
-                vehicles.at(i).addRide(admissible_priorities.at(0).ride);
-                for (int j = 0; j < admissible_priorities.size(); j++)
+                vehicles.at(i).addRide(*admissible_priorities.at(0).ride);
+                for (size_t j = 0; j < admissible_priorities.size(); j++)
                 {
-                    if (admissible_priorities.at(j).ride->rideId == rideId ||
+                    if (admissible_priorities.at(j).ride->id == rideId ||
                             admissible_priorities.at(j).vec->id == vecId)
                     {
                         admissible_priorities.erase(admissible_priorities.begin() + j);
@@ -125,17 +126,17 @@ int main(int argc, char *argv[])
                     }
                 }
 
-                for (int j = 0; j < priorities.size(); j++)
+                for (size_t j = 0; j < priorities.size(); j++)
                 {
-                    if (priorities.at(j).ride->rideId == rideId ||
+                    if (priorities.at(j).ride->id == rideId ||
                             priorities.at(j).vec->id == vecId)
                     {
                         priorities.erase(priorities.begin() + j);
                         j--;
-                        int k = 0;
+                        size_t k = 0;
                         for (k; k < rides.size(); k++)
                         {
-                            if (rides.at(k).rideId == rideId)
+                            if (rides.at(k).id == rideId)
                                 break;
                         }
                         if (k < rides.size())
@@ -151,7 +152,7 @@ int main(int argc, char *argv[])
             vec.update(t);
         }
 
-        if (rides.size() == 0)
+        if (rides.empty())
         {
             break;
         }

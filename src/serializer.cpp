@@ -18,9 +18,9 @@ void Serializer::printVehicle(std::vector<Vehicle>& vehicles)
         if (outputFile.is_open())
         {
             outputFile << vec.rides.size();
-            for (Ride* ride : vec.rides)
+            for (Ride ride : vec.rides)
             {
-                outputFile << " " << ride->rideId;
+                outputFile << " " << ride.id;
             }
             outputFile << std::endl;
         }

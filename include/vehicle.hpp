@@ -9,15 +9,16 @@
 class Vehicle
 {
 public:
-    Vehicle(int _id) :
+    explicit Vehicle(int _id) :
             id(_id),
             current_row(0),
             current_col(0),
             going_to_start_point(false),
             going_to_destination(false),
-            moving_counter(0){}
+            moving_counter(0),
+            current_ride(Ride(-1, 0, 0, 0, 0, 0, 0)){}
 
-    void addRide(Ride* aRide);
+    void addRide(Ride aRide);
 
     void update(int step);
 
@@ -26,8 +27,8 @@ public:
         return (id == vec.id);
     }
 
-    std::vector<Ride*> rides;
-    Ride* current_ride = nullptr;
+    std::vector<Ride> rides;
+    Ride current_ride;
     int id;
     int current_row;
     int current_col;
