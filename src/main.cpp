@@ -104,13 +104,18 @@ int main(int argc, char *argv[])
         while (!admissible_priorities.empty())
         {
             size_t i = 0;
+
             for (i; i < vehicles.size(); ++i)
             {
-                if (admissible_priorities.at(0).vec->id == vehicles.at(i).id)
+                if (!(vehicles.at(i)).going_to_start_point && !(vehicles.at(i)).going_to_destination)
                 {
-                    break;
+                    if (admissible_priorities.at(0).vec->id == vehicles.at(i).id)
+                    {
+                        break;
+                    }
                 }
             }
+
             if (i < vehicles.size())
             {
                 int rideId = admissible_priorities.at(0).ride->id;
@@ -126,36 +131,33 @@ int main(int argc, char *argv[])
                     }
                 }
 
-                for (size_t j = 0; j < priorities.size(); j++)
+                size_t k = 0;
+                for (k; k < rides.size(); k++)
                 {
-                    if (priorities.at(j).ride->id == rideId ||
-                            priorities.at(j).vec->id == vecId)
-                    {
-                        priorities.erase(priorities.begin() + j);
-                        j--;
-                        size_t k = 0;
-                        for (k; k < rides.size(); k++)
-                        {
-                            if (rides.at(k).id == rideId)
-                                break;
-                        }
-                        if (k < rides.size())
-                            rides.erase(rides.begin() + k);
-                    }
+                    if (rides.at(k).id == rideId)
+                        break;
                 }
+
+                if (k < rides.size())
+                {
+                    rides.erase(rides.begin() + k);
+                }
+
             }
         }
-
 
         for (Vehicle& vec: vehicles)
         {
             vec.update(t);
         }
 
+
         if (rides.empty())
         {
             break;
         }
+
+        logger.log("Time:", t);
 
     }
 
